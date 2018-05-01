@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,15 +24,16 @@ public class Controller {
 
 
   @RequestMapping(value = "/api/book/{isbn}", method = RequestMethod.GET)
-  public Book getBookByIsbn(@PathVariable String isbn) throws IOException {
+  public Book getBookByIsbn(@PathVariable String isbn) throws IOException, ParseException {
 
     return bookLibraryImp.getBookByIsbn(isbn);
   }
 
-  @RequestMapping(value = "/api/category/{categoryName}/books}", method = RequestMethod.GET)
-  public List<Book> getBookListByCategory(@PathVariable String isbn) {
+  @RequestMapping(value = "/api/category/{categoryName}/books", method = RequestMethod.GET)
+  public List<Book> getBookListByCategory(@PathVariable String categoryName)
+      throws IOException, ParseException {
 
-    return new ArrayList<>();
+    return bookLibraryImp.getBookListByCategory(categoryName);
 
 
   }

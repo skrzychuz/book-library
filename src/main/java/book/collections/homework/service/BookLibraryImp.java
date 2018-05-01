@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -32,57 +33,14 @@ import java.util.List;
 public class BookLibraryImp implements BookLibrary {
 
   @Autowired
-  Helper helper;
+  private Helper helper;
 
 
   @Override
-  public Book getBookByIsbn(String isbn) throws IOException {
-
-//    Book book = new Book();
-//
-    JsonFactory f = new MappingJsonFactory();
-    JsonParser jp = f.createParser(new File("src\\main\\resources\\books.json"));
-    File jsonInputFile = new File("src\\main\\resources\\books.json");
+  public Book getBookByIsbn(String isbn) throws IOException, ParseException {
 
     JsonNode find = helper.getbyISBN(isbn);
-
-    Book book = helper.bookAdapter(find);
-
-//    JsonNode itemsNode = root.path("items");
-//
-//    for (JsonNode node: itemsNode) {
-//      JsonNode idNode = node.path("id");
-//      JsonNode volumeInfoNode = node.path("volumeInfo");
-//      JsonNode titleNode = volumeInfoNode.path("title");
-//      JsonNode publisherNode = volumeInfoNode.path("publisher");
-//
-//    }
-//    JsonNode idNode = itemsNode.path("id");
-//    JsonNode volumeInfoNode = itemsNode.path("volumeInfo");
-//    JsonNode titleNode = volumeInfoNode.path("title");
-//    JsonNode publisherNode = volumeInfoNode.path("publisher");
-//    JsonNode industryIdentifiersNode = volumeInfoNode.path("industryIdentifiers");
-//
-//    for (JsonNode node: industryIdentifiersNode) {
-//      if(node.path("type").asText().equals("ISBN_13")){
-//        JsonNode identifierNode = volumeInfoNode.path("identifier");
-//
-//      }
-
-//    }
-
-//    JsonNode rootNode = mapper.readTree(jp);
-//    // read employee id
-//    JsonNode empId = rootNode.path("items");
-//    JsonNode empId1 = empId.path("kind");
-//    System.out.println(empId1.asText());
-//    // read employee name
-//    JsonNode empName = rootNode.path("id");
-//    System.out.println(empName.asText());
-//    // read direct reports
-//    JsonNode drNode = rootNode.path("volumeInfo");
-//    Iterator<JsonNode> itr = drNode.elements();
-    return book;
+    return helper.bookAdapter(find);
   }
 
 
@@ -92,7 +50,8 @@ public class BookLibraryImp implements BookLibrary {
   }
 
   @Override
-  public List<Book> getBookListByCategory() {
-    return null;
+  public List<Book> getBookListByCategory(String category) throws IOException, ParseException {
+    return helper.bookList(helper.getBookList(category));
+
   }
 }
