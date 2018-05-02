@@ -20,7 +20,7 @@ public class Items implements Serializable {
 //  private String language;
 //  private String previewLink;
 //  private double averageRating;
-//  private List<String> authors;
+//  private List<String> authorsSet;
 //  private List<String> categories;
 
 
@@ -79,7 +79,7 @@ public class Items implements Serializable {
 //  }
 //
 //  public List<String> getAuthors() {
-//    return authors;
+//    return authorsSet;
 //  }
 //
 //  public List<String> getCategories() {

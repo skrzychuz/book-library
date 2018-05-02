@@ -1,7 +1,5 @@
 package book.collections.homework.service;
 
-import book.collections.homework.model.Book;
-
 import java.io.IOException;
 
 public class Main {
@@ -15,7 +13,7 @@ public class Main {
 //
     Helper helper = new Helper();
 
-    helper.authors();
+    helper.authorsSet();
   }
 
 }

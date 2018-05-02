@@ -31,7 +31,6 @@ public class Helper {
   private ObjectMapper mapper;
 
 
-
   public JsonNode getbyISBN(String isbn) throws IOException {
 
     JsonNode root = mapper.readTree(new File("src\\main\\resources\\books.json"));
@@ -125,7 +124,7 @@ public class Helper {
   }
 
 
-  public List<Book> bookList(List<JsonNode> nodeList) {
+  public List<Book> bookNodeToObject(List<JsonNode> nodeList) {
     List<Book> bookList = new ArrayList<>();
 
     for (JsonNode jsonNode : nodeList) {
@@ -136,18 +135,10 @@ public class Helper {
       }
     }
 
-//    nodeList.forEach(node -> {
-//      try {
-//        bookList.add(bookAdapter(node));
-//      } catch (IOException | ParseException e) {
-//        e.printStackTrace();
-//      }
-//    });
-
     return bookList;
   }
 
-  public Set<String> authors() throws IOException {
+  public Set<String> authorsSet() throws IOException {
 
     ObjectMapper mapper11 = new ObjectMapper();
     JsonNode root = mapper11.readTree(new File("src\\main\\resources\\books.json"));
@@ -167,7 +158,33 @@ public class Helper {
     return authorsList;
   }
 
+  public double averageRate() throws IOException {
 
+    double sum = 0.0;
+    int divide = 1;
+    ObjectMapper mapper11 = new ObjectMapper();
+    JsonNode root = mapper11.readTree(new File("src\\main\\resources\\books.json"));
+    JsonNode itemsNode = root.path("items");
+    Set<String> authors = authorsSet();
+
+    for (String autor : authors) {
+      for (JsonNode itemNode : itemsNode) {
+        JsonNode volumeInfoNode = itemNode.path("volumeInfo");
+        JsonNode authors1 = volumeInfoNode.path("authors");
+        for (JsonNode node : authors1) {
+          if (authors1.equals(autor)) {
+            sum += volumeInfoNode.path("averageRating").asDouble();
+          }
+
+
+        }
+      }
+
+
+    }
+
+    return sum;
+  }
 
 
 }
