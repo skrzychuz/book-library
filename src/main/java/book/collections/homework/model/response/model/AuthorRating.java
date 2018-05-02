@@ -1,4 +1,4 @@
-package book.collections.homework.model;
+package book.collections.homework.model.response.model;
 
 import java.util.Comparator;
 

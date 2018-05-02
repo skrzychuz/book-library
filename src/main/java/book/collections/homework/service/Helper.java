@@ -1,6 +1,6 @@
 package book.collections.homework.service;
 
-import book.collections.homework.model.BookLibrary;
+import book.collections.homework.model.mapped.model.BookLibrary;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;

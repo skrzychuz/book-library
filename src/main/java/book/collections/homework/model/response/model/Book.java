@@ -1,4 +1,4 @@
-package book.collections.homework.model;
+package book.collections.homework.model.response.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -6,22 +6,47 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.List;
 
 @JsonInclude(Include.NON_DEFAULT)
-public class VolumeInfo {
+public class Book {
 
+  private String isbn;
   private String title;
   private String subtitle;
   private String publisher;
-  private String publishedDate;
+  private long publishedDate;
   private String description;
-  private List<IndustryIdentifiers> industryIdentifiers;
   private int pageCount;
-  private ImageLinks imageLinks;
+  private String thumbnailUrl;
   private String language;
   private String previewLink;
   private double averageRating;
   private List<String> authors;
   private List<String> categories;
 
+  public Book() {
+  }
+
+  public Book(String isbn, String title, String subtitle, String publisher, long publishedDate,
+      String description, int pageCount, String thumbnailUrl, String language,
+      String previewLink, double averageRating, List<String> authors,
+      List<String> categories) {
+    this.isbn = isbn;
+    this.title = title;
+    this.subtitle = subtitle;
+    this.publisher = publisher;
+    this.publishedDate = publishedDate;
+    this.description = description;
+    this.pageCount = pageCount;
+    this.thumbnailUrl = thumbnailUrl;
+    this.language = language;
+    this.previewLink = previewLink;
+    this.averageRating = averageRating;
+    this.authors = authors;
+    this.categories = categories;
+  }
+
+  public String getIsbn() {
+    return isbn;
+  }
 
   public String getTitle() {
     return title;
@@ -35,7 +60,7 @@ public class VolumeInfo {
     return publisher;
   }
 
-  public String getPublishedDate() {
+  public long getPublishedDate() {
     return publishedDate;
   }
 
@@ -43,16 +68,12 @@ public class VolumeInfo {
     return description;
   }
 
-  public List<IndustryIdentifiers> getIndustryIdentifiers() {
-    return industryIdentifiers;
-  }
-
   public int getPageCount() {
     return pageCount;
   }
 
-  public ImageLinks getImageLinks() {
-    return imageLinks;
+  public String getThumbnailUrl() {
+    return thumbnailUrl;
   }
 
   public String getLanguage() {

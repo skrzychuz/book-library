@@ -1,10 +1,12 @@
-package book.collections.homework.service;
+package book.collections.homework.model;
 
-import book.collections.homework.model.Book;
+import book.collections.homework.model.response.model.Book;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class BookBulider {
+@Service
+public class BookBuilder {
 
   private String isbn;
   private String title;
@@ -21,67 +23,67 @@ public class BookBulider {
   private List<String> categories;
 
 
-  public BookBulider withIsbn(String isbn) {
+  public BookBuilder withIsbn(String isbn) {
     this.isbn = isbn;
     return this;
   }
 
-  public BookBulider withTitle(String title) {
+  public BookBuilder withTitle(String title) {
     this.title = title;
     return this;
   }
 
-  public BookBulider withSubtitle(String subtitle) {
+  public BookBuilder withSubtitle(String subtitle) {
     this.subtitle = subtitle;
     return this;
   }
 
-  public BookBulider withPublisher(String publisher) {
+  public BookBuilder withPublisher(String publisher) {
     this.publisher = publisher;
     return this;
   }
 
-  public BookBulider withPublishedDate(long publishedDate) {
+  public BookBuilder withPublishedDate(long publishedDate) {
     this.publishedDate = publishedDate;
     return this;
   }
 
-  public BookBulider withDescription(String description) {
+  public BookBuilder withDescription(String description) {
     this.description = description;
     return this;
   }
 
-  public BookBulider withPageCount(int pageCount) {
+  public BookBuilder withPageCount(int pageCount) {
     this.pageCount = pageCount;
     return this;
   }
 
-  public BookBulider withThumbnailUrl(String thumbnailUrl) {
+  public BookBuilder withThumbnailUrl(String thumbnailUrl) {
     this.thumbnailUrl = thumbnailUrl;
     return this;
   }
 
-  public BookBulider withLanguage(String language) {
+  public BookBuilder withLanguage(String language) {
     this.language = language;
     return this;
   }
 
-  public BookBulider withPreviewLink(String previewLink) {
+  public BookBuilder withPreviewLink(String previewLink) {
     this.previewLink = previewLink;
     return this;
   }
 
-  public BookBulider withAverageRating(double averageRating) {
+  public BookBuilder withAverageRating(double averageRating) {
     this.averageRating = averageRating;
     return this;
   }
 
-  public BookBulider withAuthors(List<String> authors) {
+  public BookBuilder withAuthors(List<String> authors) {
     this.authors = authors;
     return this;
   }
 
-  public BookBulider withCategories(List<String> categories) {
+  public BookBuilder withCategories(List<String> categories) {
     this.categories = categories;
     return this;
   }
@@ -90,5 +92,4 @@ public class BookBulider {
     return new Book(isbn, title, subtitle, publisher, publishedDate, description, pageCount,
         thumbnailUrl, language, previewLink, averageRating, authors, categories);
   }
-
 }

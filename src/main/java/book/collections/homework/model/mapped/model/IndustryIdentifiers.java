@@ -1,4 +1,4 @@
-package book.collections.homework.model;
+package book.collections.homework.model.mapped.model;
 
 public class IndustryIdentifiers {
 
