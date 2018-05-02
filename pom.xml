@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>book.collections</groupId>
+	<groupId>bookLibrary.collections</groupId>
 	<artifactId>homework</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>homework</name>
-	<description>The goal of the project is to enable libraries to share information about their book collections with customers.</description>
+	<description>The goal of the project is to enable libraries to share information about their bookLibrary collections with customers.</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

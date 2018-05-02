@@ -9,17 +9,27 @@ import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 @Service
-public class DateToTimeStamp {
+public class DateAdapter {
 
-  public Long stringToTimestampAdapter(String stringDate) throws ParseException {
+  public Long stringToTimestampAdapter(String stringDate) {
     if (Pattern.matches("\\d{4}", stringDate)) {
       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
       dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-      Date parsedDate = dateFormat.parse(stringDate);
+      Date parsedDate = null;
+      try {
+        parsedDate = dateFormat.parse(stringDate);
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
       return parsedDate.getTime();
     } else {
       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-      Date parsedDate = dateFormat.parse(stringDate);
+      Date parsedDate = null;
+      try {
+        parsedDate = dateFormat.parse(stringDate);
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
       return parsedDate.getTime();
     }
   }

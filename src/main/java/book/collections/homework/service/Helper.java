@@ -1,23 +1,17 @@
 package book.collections.homework.service;
 
-import book.collections.homework.model.Book;
+import book.collections.homework.model.BookLibrary;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -26,7 +20,7 @@ import java.util.TreeSet;
 public class Helper {
 
   @Autowired
-  DateToTimeStamp dateToTimeStamp;
+  DateAdapter dateAdapter;
   @Autowired
   private ObjectMapper mapper;
 
@@ -54,11 +48,11 @@ public class Helper {
     return null;
   }
 
-  public Book bookAdapter(JsonNode node) throws IOException, ParseException {
+  public BookLibrary bookAdapter(JsonNode node) throws IOException, ParseException {
 
     mapper.setSerializationInclusion(Include.NON_EMPTY);
 
-    Book book = new Book();
+    BookLibrary bookLibrary = new BookLibrary();
 
     String isbn = "";
     JsonNode volumeInfo = node.path("volumeInfo");
@@ -80,26 +74,26 @@ public class Helper {
         isbn = node.path("id").asText();
       }
     }
+//
+//    bookLibrary.setTitle(volumeInfo.path("title").asText());
+//    bookLibrary.setSubtitle(volumeInfo.path("subtitle").asText());
+//    bookLibrary.setPublisher(volumeInfo.path("publisher").asText());
+//
+//    Long timestamp = dateAdapter
+//        .stringToTimestampAdapter(volumeInfo.path("publishedDate").asText());
+//
+//    bookLibrary.setPublishedDate(timestamp);
+//    bookLibrary.setDescription(volumeInfo.path("description").asText());
+//    bookLibrary.setPageCount(volumeInfo.path("pageCount").asInt());
+//    bookLibrary.setThumbnailUrl(imageLinks.path("thumbnail").asText());
+//    bookLibrary.setLanguage(volumeInfo.path("language").asText());
+//    bookLibrary.setPreviewLink(volumeInfo.path("previewLink").asText());
+//    bookLibrary.setAverageRating(volumeInfo.path("averageRating").asDouble());
+//    bookLibrary.setAuthors(authorsList);
+//    bookLibrary.setCategories(catList);
+//    bookLibrary.setIsbn(isbn);
 
-    book.setTitle(volumeInfo.path("title").asText());
-    book.setSubtitle(volumeInfo.path("subtitle").asText());
-    book.setPublisher(volumeInfo.path("publisher").asText());
-
-    Long timestamp = dateToTimeStamp
-        .stringToTimestampAdapter(volumeInfo.path("publishedDate").asText());
-
-    book.setPublishedDate(timestamp);
-    book.setDescription(volumeInfo.path("description").asText());
-    book.setPageCount(volumeInfo.path("pageCount").asInt());
-    book.setThumbnailUrl(imageLinks.path("thumbnail").asText());
-    book.setLanguage(volumeInfo.path("language").asText());
-    book.setPreviewLink(volumeInfo.path("previewLink").asText());
-    book.setAverageRating(volumeInfo.path("averageRating").asDouble());
-    book.setAuthors(authorsList);
-    book.setCategories(catList);
-    book.setIsbn(isbn);
-
-    return book;
+    return bookLibrary;
   }
 
 
@@ -124,18 +118,18 @@ public class Helper {
   }
 
 
-  public List<Book> bookNodeToObject(List<JsonNode> nodeList) {
-    List<Book> bookList = new ArrayList<>();
+  public List<BookLibrary> bookNodeToObject(List<JsonNode> nodeList) {
+    List<BookLibrary> bookLibraryList = new ArrayList<>();
 
     for (JsonNode jsonNode : nodeList) {
       try {
-        bookList.add(bookAdapter(jsonNode));
+        bookLibraryList.add(bookAdapter(jsonNode));
       } catch (IOException | ParseException e) {
         e.printStackTrace();
       }
     }
 
-    return bookList;
+    return bookLibraryList;
   }
 
   public Set<String> authorsSet() throws IOException {
