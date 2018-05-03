@@ -1,9 +1,15 @@
 package book.collections.homework.rest;
 
+import book.collections.homework.model.BookBuilder;
+import book.collections.homework.model.mapped.model.BookLibrary;
+import book.collections.homework.model.mapped.model.Item;
 import book.collections.homework.model.response.model.AuthorRating;
 import book.collections.homework.model.response.model.Book;
 import book.collections.homework.repository.BookLibraryRepo;
+import book.collections.homework.service.BookAdapter;
+import book.collections.homework.service.BookLibraryAdapter;
 import book.collections.homework.service.BookLibraryService;
+import book.collections.homework.service.DateAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,4 +41,11 @@ public class Controller {
   public List<AuthorRating> getAuthorListOrderOfRating() {
     return bookLibraryService.getAuthorListOrderOfRating();
   }
+
+//  @RequestMapping(value = "/api/yoyo", method = RequestMethod.GET)
+//  public BookLibrary yoyo() {
+//
+//    BookLibraryAdapter bookLibrary = new BookLibraryAdapter();
+//    return bookLibrary.getBookLibrary();
+//  }
 }

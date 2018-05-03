@@ -14,26 +14,26 @@ import java.io.IOException;
 @Service
 public class BookLibraryAdapter {
 
-  @Autowired
-  ObjectMapper mapper;
 
-  @Value("${database.filepath}")
-  String pathname;
+  private final File myFileDatabase;
+  private ObjectMapper mapper;
 
+  public BookLibraryAdapter(ObjectMapper mapper, @Value("${database.filepath}") String pathname) {
+    this.mapper = mapper;
+    this.myFileDatabase = new File(pathname);
+  }
 
-  public BookLibrary getAllBooks() {
+  public BookLibrary getBookLibrary() {
 
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     BookLibrary bookLibrary = null;
     try {
       bookLibrary = mapper
-          .readValue(new File(pathname), BookLibrary.class);
+          .readValue(myFileDatabase, BookLibrary.class);
     } catch (IOException e) {
       e.printStackTrace();
     }
     return bookLibrary;
   }
-
-
 }

@@ -6,7 +6,6 @@ import book.collections.homework.model.response.model.Book;
 import book.collections.homework.model.mapped.model.IndustryIdentifiers;
 import book.collections.homework.model.mapped.model.Item;
 import book.collections.homework.repository.BookLibraryRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +34,7 @@ public class BookLibraryService implements BookLibraryRepo {
   @Override
   public Book getBookByIsbn(String isbn) {
 
-    for (Item item : library.getAllBooks().getItems()) {
+    for (Item item : library.getBookLibrary().getItems()) {
       for (IndustryIdentifiers isbnId : item.getVolumeInfo().getIndustryIdentifiers()) {
         if ((isbnId.getType().equals(isbnType) && isbnId.getIdentifier().equals(isbn)) || item
             .getId().equals(isbn)) {
@@ -51,7 +50,7 @@ public class BookLibraryService implements BookLibraryRepo {
 
     List<Book> bookByCategory = new ArrayList<>();
 
-    for (Item item : library.getAllBooks().getItems()) {
+    for (Item item : library.getBookLibrary().getItems()) {
       if ((item.getVolumeInfo().getCategories() != null)) {
         for (String cat : item.getVolumeInfo().getCategories()) {
           if (cat.equals(category)) {
@@ -71,7 +70,7 @@ public class BookLibraryService implements BookLibraryRepo {
     for (String uniqAuthor : getAuthorsList()) {
       double total = 0.0;
       int counter = 0;
-      for (Item item : library.getAllBooks().getItems()) {
+      for (Item item : library.getBookLibrary().getItems()) {
         if (item.getVolumeInfo().getAuthors() != null) {
           for (String author : item.getVolumeInfo().getAuthors()) {
             if (uniqAuthor.equals(author)) {
@@ -100,7 +99,7 @@ public class BookLibraryService implements BookLibraryRepo {
 
     Set<String> authorsList = new TreeSet<>();
 
-    for (Item item : library.getAllBooks().getItems()) {
+    for (Item item : library.getBookLibrary().getItems()) {
       if (item.getVolumeInfo().getAuthors() != null) {
         authorsList.addAll(item.getVolumeInfo().getAuthors());
       }
