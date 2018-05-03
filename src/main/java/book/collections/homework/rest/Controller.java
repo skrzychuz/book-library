@@ -2,6 +2,7 @@ package book.collections.homework.rest;
 
 import book.collections.homework.model.response.model.AuthorRating;
 import book.collections.homework.model.response.model.Book;
+import book.collections.homework.repository.BookLibraryRepo;
 import book.collections.homework.service.BookLibraryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

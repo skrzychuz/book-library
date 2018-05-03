@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 public class BookAdapter {
 
   @Autowired
+  private
   DateAdapter dateAdapter;
   @Autowired
+  private
   BookBuilder bookBuilder;
 
 

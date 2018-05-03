@@ -1,57 +1,55 @@
 package book.collections.homework.service;
 
-import book.collections.homework.model.BookLibraryBuilder;
+import book.collections.homework.configuration.RepositoryNotFoundException;
 import book.collections.homework.model.response.model.AuthorRating;
 import book.collections.homework.model.response.model.Book;
-import book.collections.homework.model.mapped.model.BookLibrary;
 import book.collections.homework.model.mapped.model.IndustryIdentifiers;
 import book.collections.homework.model.mapped.model.Item;
 import book.collections.homework.repository.BookLibraryRepo;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-
 @Service
 public class BookLibraryService implements BookLibraryRepo {
 
-  @Autowired
-  BookAdapter bookAdapter;
-  @Autowired
-  BookLibraryBuilder library;
+  @Value("${industryidentifiers.type}")
+  private
+  String isbnType;
+
+  private BookAdapter bookAdapter;
+
+  private BookLibraryAdapter library;
+
+  public BookLibraryService(BookAdapter bookAdapter,
+      BookLibraryAdapter library) {
+    this.bookAdapter = bookAdapter;
+    this.library = library;
+  }
 
   @Override
   public Book getBookByIsbn(String isbn) {
-    library.getAllBooks();
-
-//    BookLibrary bookLibrary = getAll();
 
     for (Item item : library.getAllBooks().getItems()) {
       for (IndustryIdentifiers isbnId : item.getVolumeInfo().getIndustryIdentifiers()) {
-        if ((isbnId.getType().equals("ISBN_13") && isbnId.getIdentifier().equals(isbn)) || item
+        if ((isbnId.getType().equals(isbnType) && isbnId.getIdentifier().equals(isbn)) || item
             .getId().equals(isbn)) {
           return bookAdapter.convertItemToBook(item);
         }
       }
     }
-    return null;
+    throw new RepositoryNotFoundException();
   }
-
 
   @Override
   public List<Book> getBookListByCategory(String category) {
 
     List<Book> bookByCategory = new ArrayList<>();
-
-//    BookLibrary bookLibrary = getAll();
 
     for (Item item : library.getAllBooks().getItems()) {
       if ((item.getVolumeInfo().getCategories() != null)) {
@@ -65,15 +63,12 @@ public class BookLibraryService implements BookLibraryRepo {
     return bookByCategory;
   }
 
-
   @Override
   public List<AuthorRating> getAuthorListOrderOfRating() {
 
-    Set<String> authorsList = authorsSet();
-//    BookLibrary bookLibrary = getAll();
     List<AuthorRating> authorRating = new ArrayList<>();
 
-    for (String uniqAuthor : authorsList) {
+    for (String uniqAuthor : getAuthorsList()) {
       double total = 0.0;
       int counter = 0;
       for (Item item : library.getAllBooks().getItems()) {
@@ -101,38 +96,16 @@ public class BookLibraryService implements BookLibraryRepo {
   }
 
 
-  public BookLibrary getAll() {
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    BookLibrary bookLibrary = null;
-    try {
-      bookLibrary = mapper
-          .readValue(new File("src\\main\\resources\\books.json"), BookLibrary.class);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return bookLibrary;
-  }
+  private Set<String> getAuthorsList() {
 
-
-
-
-
-
-
-
-  public Set<String> authorsSet() {
-
-    BookLibrary bookLibrary = getAll();
     Set<String> authorsList = new TreeSet<>();
 
-    for (Item item : bookLibrary.getItems()) {
+    for (Item item : library.getAllBooks().getItems()) {
       if (item.getVolumeInfo().getAuthors() != null) {
         authorsList.addAll(item.getVolumeInfo().getAuthors());
       }
     }
     return authorsList;
   }
-
 }
 
