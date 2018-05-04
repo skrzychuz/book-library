@@ -3,7 +3,6 @@ package book.collections.homework.service;
 import book.collections.homework.model.mapped.model.BookLibrary;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,6 @@ import java.io.IOException;
 
 @Service
 public class BookLibraryAdapter {
-
 
   private final File myFileDatabase;
   private ObjectMapper mapper;

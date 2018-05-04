@@ -11,24 +11,27 @@ import java.util.regex.Pattern;
 public class DateAdapter {
 
   public Long stringToTimestampAdapter(String stringDate) {
-    if (Pattern.matches("\\d{4}", stringDate)) {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
-      Date parsedDate = null;
-      try {
-        parsedDate = dateFormat.parse(stringDate);
-      } catch (ParseException e) {
-        e.printStackTrace();
+    if (stringDate != null) {
+      if (Pattern.matches("\\d{4}", stringDate)) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+        Date parsedDate = null;
+        try {
+          parsedDate = dateFormat.parse(stringDate);
+        } catch (ParseException e) {
+          e.printStackTrace();
+        }
+        return parsedDate.getTime();
+      } else {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date parsedDate = null;
+        try {
+          parsedDate = dateFormat.parse(stringDate);
+        } catch (ParseException e) {
+          e.printStackTrace();
+        }
+        return parsedDate.getTime();
       }
-      return parsedDate.getTime();
-    } else {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-      Date parsedDate = null;
-      try {
-        parsedDate = dateFormat.parse(stringDate);
-      } catch (ParseException e) {
-        e.printStackTrace();
-      }
-      return parsedDate.getTime();
     }
+    return 0L;
   }
 }

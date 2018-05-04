@@ -20,14 +20,15 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.io.File;
 
 @RunWith(MockitoJUnitRunner.class)
-public class BookLibraryAdapterTest {
+@SpringBootTest
+public class BookLibraryAdapterTest extends LibraryAbstractTest {
 
-  BookLibraryAdapter adapter;
-
-  @Before
-  public void setUp() {
-    adapter = new BookLibraryAdapter(new ObjectMapper(), "src/test/resources/books.json");
-  }
+//  BookLibraryAdapter adapter;
+//
+//  @Before
+//  public void setUp() {
+//    adapter = new BookLibraryAdapter(new ObjectMapper(), "src/test/resources/books.json");
+//  }
 
   @Test
   public void shouldGetAllBooks() throws Exception {

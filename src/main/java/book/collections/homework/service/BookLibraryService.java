@@ -6,7 +6,9 @@ import book.collections.homework.model.response.model.Book;
 import book.collections.homework.model.mapped.model.IndustryIdentifiers;
 import book.collections.homework.model.mapped.model.Item;
 import book.collections.homework.repository.BookLibraryRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,18 +19,17 @@ import java.util.TreeSet;
 @Service
 public class BookLibraryService implements BookLibraryRepo {
 
-  @Value("${industryidentifiers.type}")
-  private
-  String isbnType;
-
+  private String isbnType;
   private BookAdapter bookAdapter;
-
   private BookLibraryAdapter library;
 
-  public BookLibraryService(BookAdapter bookAdapter,
+  @Autowired
+  public BookLibraryService(@Value("${industryidentifiers.type}") String isbnType,
+      BookAdapter bookAdapter,
       BookLibraryAdapter library) {
     this.bookAdapter = bookAdapter;
     this.library = library;
+    this.isbnType = isbnType;
   }
 
   @Override
