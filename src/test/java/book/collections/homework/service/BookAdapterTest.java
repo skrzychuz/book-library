@@ -2,36 +2,13 @@ package book.collections.homework.service;
 
 import static org.junit.Assert.*;
 
-import book.collections.homework.model.BookBuilder;
-import book.collections.homework.model.mapped.model.BookLibrary;
 import book.collections.homework.model.mapped.model.Item;
 import book.collections.homework.model.response.model.Book;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
 import java.util.Collections;
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class BookAdapterTest {
 
-  private BookAdapter bookAdapter;
-  private BookLibraryAdapter bookLibraryAdapter;
-  private BookBuilder bookBuilder;
-
-  @Before
-  public void setUp() {
-    bookAdapter = new BookAdapter(new DateAdapter(), new BookBuilder());
-    bookLibraryAdapter = new BookLibraryAdapter(new ObjectMapper(),
-        "src/test/resources/books.json");
-    bookBuilder = new BookBuilder();
-  }
+public class BookAdapterTest extends AbstractClassTest {
 
   @Test
   public void shouldComapreBookWithConvertedItem() throws Exception {
