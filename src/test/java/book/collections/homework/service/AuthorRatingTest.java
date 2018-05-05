@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import book.collections.homework.configuration.RepositoryNotFoundException;
 import book.collections.homework.model.BookBuilder;
@@ -20,13 +22,16 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 
 @RunWith(JUnitParamsRunner.class)
 public class AuthorRatingTest {
 
   Book book;
-  BookLibraryService bookLibraryService;
+  private BookLibraryService bookLibraryService;
   DateAdapter dateAdapter;
 
 
@@ -42,6 +47,7 @@ public class AuthorRatingTest {
         new BookAdapter
             (new DateAdapter(), new BookBuilder()),
         new BookLibraryAdapter(new ObjectMapper(), "src/test/resources/books.json"));
+
     BookBuilder bookBuilder = new BookBuilder();
     expecteddBook = bookBuilder
         .withIsbn("7tkN1CYzn2cC")
@@ -49,15 +55,12 @@ public class AuthorRatingTest {
         .withPublisher("InfoStrategist.com")
         .withPublishedDate(0L)
         .build();
-
   }
 
-
   @Test
-  @Parameters(method = "testsParamsWithName")
+  @Parameters(method = "WithNames")
   public void getAuthorListOrderOfRating(List<String> authorRatingList) throws Exception {
     //given
-    List<String> expectedName = authorRatingList;
     List<String> actualName = new ArrayList<>();
 
     //when
@@ -69,39 +72,39 @@ public class AuthorRatingTest {
 
     //then
     assertNotNull(actualList);
-    assertEquals(43, actualList.size());
+    assertEquals(40, actualList.size());
 
-    for (String expName : expectedName) {
+    for (String expName : authorRatingList) {
       assertTrue("Error with " + expName, actualName.contains(expName));
     }
   }
 
   @Test
-  public void getAuthorsList() {
+  @Parameters(method = "NamesAndRating")
+  public void shouldCheckRightAverageRating(String authorName, double avgrating) {
 
+    List<AuthorRating> authorRatingList = bookLibraryService.getAuthorListOrderOfRating();
+    for (AuthorRating authorRating : authorRatingList) {
+      if (authorRating.getAuthor().equals(authorName)) {
+        assertEquals(avgrating, authorRating.getAverageRating(), 0);
+      }
+    }
   }
 
-  //  @Test
-//  @Parameters(method = "containsParameters")
-//  public void testContains_usingNamedMethodParameters(final List<String> list, final String a,
-//      final boolean expectedResult) {
-//    assertEquals(expectedResult, testSubject.contains(list, a));
-//  }
-  private Object[] testsParamswithAuthorRating() {
-    return new Object[]{
-        new Object[]{Arrays.asList(new AuthorRating("John", 4.5), new AuthorRating("Steven", 3.3),
-            new AuthorRating("Bruce", 5)), 2.77},
-        new Object[]{Arrays.asList(new AuthorRating("Joe", 1), new AuthorRating("Tom", 1),
-            new AuthorRating("Ritchy", 1.1)) },
-        new Object[]{Arrays.asList(new AuthorRating("Zakk", 4.5), new AuthorRating("Neil", 3),
-            new AuthorRating("Mike", 5))}};
-  }
-
-
-  private Object[] testsParamsWithName() {
+  private Object[] WithNames() {
     return new Object[]{
         new Object[]{Arrays.asList("Gary Cornell", "Cay S. Horstmann", "James William Bayley Money",
-            "Bruce Eckel", "Sundar Narasimhan", "Patrick Henry Winston", "J.F. Scheltema")}};
+            "Bruce Eckel", "Sundar Narasimhan", "Patrick Henry Winston", "J.F. Scheltema", "Geddy", "Bruce", "Jimmi")}};
 
+  }
+
+  private Object[] NamesAndRating() {
+
+    return new Object[]{
+        new Object[]{"Geddy", 4.0},
+        new Object[]{"Bruce", 1.0},
+        new Object[]{"Jimmi", 4.3},
+
+    };
   }
 }

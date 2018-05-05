@@ -2480,7 +2480,8 @@
       "volumeInfo": {
         "title": "OBJECT ORIENTED PROG WITH JAVA",
         "authors": [
-          "BUYYA"
+          "BUYYA",
+          "Geddy"
         ],
         "publisher": "Tata McGraw-Hill Education",
         "publishedDate": "2009",
@@ -2713,7 +2714,7 @@
         "title": "TCP/IP Sockets in Java",
         "subtitle": "Practical Guide for Programmers",
         "authors": [
-          "Kenneth L. Calvert",
+          "Geddy",
           "Michael J. Donahoo"
         ],
         "publisher": "Morgan Kaufmann",
@@ -2738,7 +2739,7 @@
         "categories": [
           "Computers"
         ],
-        "averageRating": 4.0,
+        "averageRating": 3.0,
         "ratingsCount": 2,
         "maturityRating": "NOT_MATURE",
         "allowAnonLogging": true,
@@ -2875,7 +2876,7 @@
         "title": "Back Door Java",
         "subtitle": "State Formation and the Domestic in Working Class Java",
         "authors": [
-          "Janice C. Newberry"
+          "Geddy"
         ],
         "publisher": "University of Toronto Press",
         "publishedDate": "2006",

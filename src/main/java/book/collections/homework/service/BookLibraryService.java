@@ -68,7 +68,7 @@ public class BookLibraryService implements BookLibraryRepo {
 
     List<AuthorRating> authorRating = new ArrayList<>();
 
-    for (String uniqAuthor : getAuthorsList()) {
+    for (String uniqAuthor : library.getAuthorsList()) {
       double total = 0.0;
       int counter = 0;
       for (Item item : library.getBookLibrary().getItems()) {
@@ -85,7 +85,7 @@ public class BookLibraryService implements BookLibraryRepo {
       }
       if (counter != 0) {
         authorRating
-            .add(new AuthorRating(uniqAuthor, Math.round((total / counter) * 100d) / 100.0d));
+            .add(new AuthorRating(uniqAuthor, Math.round((total / counter) * 10d) / 10.0d));
       } else {
         authorRating
             .add(new AuthorRating(uniqAuthor, 0.0));
@@ -93,19 +93,6 @@ public class BookLibraryService implements BookLibraryRepo {
     }
     authorRating.sort((o1, o2) -> (int) (o2.getAverageRating() - o1.getAverageRating()));
     return authorRating;
-  }
-
-
-  private Set<String> getAuthorsList() {
-
-    Set<String> authorsList = new TreeSet<>();
-
-    for (Item item : library.getBookLibrary().getItems()) {
-      if (item.getVolumeInfo().getAuthors() != null) {
-        authorsList.addAll(item.getVolumeInfo().getAuthors());
-      }
-    }
-    return authorsList;
   }
 }
 
