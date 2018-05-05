@@ -2,15 +2,11 @@ package book.collections.homework.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import book.collections.homework.configuration.RepositoryNotFoundException;
 import book.collections.homework.model.response.model.Book;
 import org.junit.Test;
-
-import org.junit.runner.RunWith;
-
-import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 
@@ -36,10 +32,11 @@ public class BookLibraryServiceTest extends AbstractClassTest {
 
   }
 
-  @Test(expected = RepositoryNotFoundException.class)
-  public void shouldReturnNotFoundExceptionForNoExistIsbn() throws Exception {
+  @Test
+  public void shouldReturnNullForNoExistIsbn() throws Exception {
 
-    bookLibraryService.getBookByIsbn("noExist");
+    Book book = bookLibraryService.getBookByIsbn("noExist");
+    assertNull(book);
   }
 
 

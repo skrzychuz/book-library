@@ -11,6 +11,7 @@ import junitparams.Parameters;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +26,7 @@ public class AuthorRatingTest extends AbstractClassTest {
     List<String> actualName = new ArrayList<>();
 
     //when
-    List<AuthorRating> actualList = bookLibraryService.getAuthorListOrderOfRating();
+    List<AuthorRating> actualList = bookLibraryService.getAuthorsRatings();
     for (AuthorRating aaa : actualList) {
       actualName.add(aaa.getAuthor());
     }
@@ -41,9 +42,10 @@ public class AuthorRatingTest extends AbstractClassTest {
 
   @Test
   @Parameters(method = "namesAndRating")
-  public void shouldCheckRightAverageRating(String authorName, double avgrating) {
+  public void shouldCheckRightAverageRating(String authorName, double avgrating)
+      throws IOException {
 
-    List<AuthorRating> authorRatingList = bookLibraryService.getAuthorListOrderOfRating();
+    List<AuthorRating> authorRatingList = bookLibraryService.getAuthorsRatings();
     for (AuthorRating authorRating : authorRatingList) {
       if (authorRating.getAuthor().equals(authorName)) {
         assertEquals(avgrating, authorRating.getAverageRating(), 0);

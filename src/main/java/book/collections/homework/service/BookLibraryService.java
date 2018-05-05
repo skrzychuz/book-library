@@ -1,60 +1,53 @@
 package book.collections.homework.service;
 
-import book.collections.homework.configuration.RepositoryNotFoundException;
-import book.collections.homework.model.response.model.AuthorRating;
-import book.collections.homework.model.response.model.Book;
+import book.collections.homework.configuration.VariableConfig;
 import book.collections.homework.model.mapped.model.IndustryIdentifiers;
 import book.collections.homework.model.mapped.model.Item;
-import book.collections.homework.repository.BookLibraryRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import book.collections.homework.model.response.model.AuthorRating;
+import book.collections.homework.model.response.model.Book;
+import org.decimal4j.util.DoubleRounder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 @Service
-public class BookLibraryService implements BookLibraryRepo {
+public class BookLibraryService  {
 
-  private String isbnType;
+
   private BookAdapter bookAdapter;
   private BookLibraryAdapter library;
 
-  @Autowired
-  public BookLibraryService(@Value("${industryidentifiers.type}") String isbnType,
+  public BookLibraryService(
       BookAdapter bookAdapter,
       BookLibraryAdapter library) {
     this.bookAdapter = bookAdapter;
     this.library = library;
-    this.isbnType = isbnType;
+
   }
 
-  @Override
-  public Book getBookByIsbn(String isbn) {
+  public Book getBookByIsbn(String isbn) throws IOException {
 
     for (Item item : library.getBookLibrary().getItems()) {
-      for (IndustryIdentifiers isbnId : item.getVolumeInfo().getIndustryIdentifiers()) {
-        if ((isbnId.getType().equals(isbnType) && isbnId.getIdentifier().equals(isbn)) || item
+      for (IndustryIdentifiers type : item.getVolumeInfo().getIndustryIdentifiers()) {
+        if ((type.getType().equals(VariableConfig.ISBN_TYPE) && type.getIdentifier().equals(isbn)) || item
             .getId().equals(isbn)) {
           return bookAdapter.convertItemToBook(item);
         }
       }
     }
-    throw new RepositoryNotFoundException();
+    return null;
   }
 
-  @Override
-  public List<Book> getBookListByCategory(String category) {
+  public List<Book> getBookListByCategory(String givenCategory) throws IOException {
 
     List<Book> bookByCategory = new ArrayList<>();
 
     for (Item item : library.getBookLibrary().getItems()) {
       if ((item.getVolumeInfo().getCategories() != null)) {
-        for (String cat : item.getVolumeInfo().getCategories()) {
-          if (cat.equals(category)) {
+        for (String category : item.getVolumeInfo().getCategories()) {
+          if (category.equals(givenCategory)) {
             bookByCategory.add(bookAdapter.convertItemToBook(item));
           }
         }
@@ -63,8 +56,8 @@ public class BookLibraryService implements BookLibraryRepo {
     return bookByCategory;
   }
 
-  @Override
-  public List<AuthorRating> getAuthorListOrderOfRating() {
+
+  public List<AuthorRating> getAuthorsRatings() throws IOException {
 
     List<AuthorRating> authorRating = new ArrayList<>();
 
@@ -85,7 +78,9 @@ public class BookLibraryService implements BookLibraryRepo {
       }
       if (counter != 0) {
         authorRating
-            .add(new AuthorRating(uniqAuthor, Math.round((total / counter) * 10d) / 10.0d));
+//            .add(new AuthorRating(uniqAuthor, Math.round((total / counter) * 10d) / 10.0d));
+                    .add(new AuthorRating(uniqAuthor, DoubleRounder.round(total / counter,1) ));
+
       } else {
         authorRating
             .add(new AuthorRating(uniqAuthor, 0.0));

@@ -2,8 +2,8 @@ package book.collections.homework.model.mapped.model;
 
 public class IndustryIdentifiers {
 
-  String type;
-  String identifier;
+  private String type;
+  private String identifier;
 
   public String getType() {
     return type;

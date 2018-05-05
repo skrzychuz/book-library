@@ -22,7 +22,6 @@ public class VolumeInfo {
   private List<String> authors;
   private List<String> categories;
 
-
   public String getTitle() {
     return title;
   }

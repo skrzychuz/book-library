@@ -1,27 +1,25 @@
 package book.collections.homework.service;
 
+import book.collections.homework.configuration.VariableConfig;
 import book.collections.homework.model.BookBuilder;
 import book.collections.homework.model.mapped.model.IndustryIdentifiers;
 import book.collections.homework.model.mapped.model.Item;
 import book.collections.homework.model.response.model.Book;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BookAdapter {
 
+  private DateAdapter dateAdapter;
 
-  private  DateAdapter dateAdapter;
-  private  BookBuilder bookBuilder;
 
-  public BookAdapter(DateAdapter dateAdapter, BookBuilder bookBuilder) {
+  public BookAdapter(DateAdapter dateAdapter) {
     this.dateAdapter = dateAdapter;
-    this.bookBuilder = bookBuilder;
   }
 
   public Book convertItemToBook(Item item) {
 
-    return bookBuilder
+    return new BookBuilder()
         .withIsbn(getBookIsbn(item))
         .withTitle(item.getVolumeInfo().getTitle())
         .withSubtitle(item.getVolumeInfo().getSubtitle())
@@ -45,12 +43,11 @@ public class BookAdapter {
     String isbn = "";
 
     for (IndustryIdentifiers identifier : item.getVolumeInfo().getIndustryIdentifiers()) {
-      if (identifier.getType().equals("ISBN_13")) {
-        isbn = identifier.getIdentifier();
-      } else {
-        isbn = item.getId();
-      }
+      isbn = identifier.getType().equals(VariableConfig.ISBN_TYPE) ? identifier.getIdentifier() : item.getId();
     }
     return isbn;
   }
+
+//  public boolean isbnNumerMatches(){};
+
 }

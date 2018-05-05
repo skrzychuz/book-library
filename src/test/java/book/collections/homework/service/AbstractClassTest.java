@@ -5,14 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 abstract class AbstractClassTest {
 
-  private String testFilePath = "src/test/resources/booksForTests.json";
-  private String isbnType = "ISBN_13";
-  private ObjectMapper mapper = new ObjectMapper();
   DateAdapter dateAdapter = new DateAdapter();
   BookBuilder bookBuilder = new BookBuilder();
+  BookAdapter bookAdapter = new BookAdapter(dateAdapter);
+  private ObjectMapper mapper = new ObjectMapper();
+  private String testFilePath = "src/test/resources/booksForTests.json";
   BookLibraryAdapter bookLibraryAdapter = new BookLibraryAdapter(mapper, testFilePath);
-  BookAdapter bookAdapter = new BookAdapter(dateAdapter, bookBuilder);
-  BookLibraryService bookLibraryService = new BookLibraryService(isbnType, bookAdapter,
+  BookLibraryService bookLibraryService = new BookLibraryService(bookAdapter,
       bookLibraryAdapter);
 
 

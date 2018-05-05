@@ -22,7 +22,6 @@ public class BookBuilder {
   private List<String> authors;
   private List<String> categories;
 
-
   public BookBuilder withIsbn(String isbn) {
     this.isbn = isbn;
     return this;

@@ -19,26 +19,18 @@ public class BookLibraryAdapter {
   private final File myFileDatabase;
   private ObjectMapper mapper;
 
-  public BookLibraryAdapter(ObjectMapper mapper, @Value("${database.filepath}") String pathname) {
+  public BookLibraryAdapter(ObjectMapper mapper,@Value("${database.filepath}") String pathname) {
     this.mapper = mapper;
     this.myFileDatabase = new File(pathname);
-   }
-
-  public BookLibrary getBookLibrary() {
-
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-    BookLibrary bookLibrary = null;
-    try {
-      bookLibrary = mapper
-          .readValue(myFileDatabase, BookLibrary.class);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return bookLibrary;
   }
 
-  public Set<String> getAuthorsList() {
+  public BookLibrary getBookLibrary() throws IOException {
+
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    return mapper.readValue(myFileDatabase, BookLibrary.class);
+  }
+
+  public Set<String> getAuthorsList() throws IOException {
 
     Set<String> authorsList = new TreeSet<>();
 
