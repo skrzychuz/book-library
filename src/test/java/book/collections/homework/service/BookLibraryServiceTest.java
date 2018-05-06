@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import book.collections.homework.model.BookBuilder;
 import book.collections.homework.model.response.model.Book;
 import org.junit.Test;
 
@@ -16,7 +17,7 @@ public class BookLibraryServiceTest extends AbstractClassTest {
   public void shouldGetBookByIsbn() throws Exception {
 
     //given
-    Book expectedBook = bookBuilder
+    Book expectedBook = new BookBuilder()
         .withIsbn("7tkN1CYzn2cC")
         .withTitle("A Hypervista of the Java Landscape")
         .withPublisher("InfoStrategist.com")

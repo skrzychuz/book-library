@@ -1,8 +1,6 @@
 package book.collections.homework.model.response.model;
 
-import java.util.Comparator;
-
-public class AuthorRating implements Comparator<AuthorRating> {
+public class AuthorRating implements Comparable<AuthorRating> {
 
   private String author;
   private double averageRating;
@@ -21,11 +19,7 @@ public class AuthorRating implements Comparator<AuthorRating> {
   }
 
   @Override
-  public int compare(AuthorRating a1, AuthorRating a2) {
-    if (a1.getAverageRating() > a2.getAverageRating()) {
-      return 1;
-    } else {
-      return -1;
-    }
+  public int compareTo(AuthorRating a1) {
+    return Double.compare(a1.averageRating, this.averageRating);
   }
 }

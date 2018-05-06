@@ -12,5 +12,4 @@ public class Item {
   public VolumeInfo getVolumeInfo() {
     return volumeInfo;
   }
-
 }

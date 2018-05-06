@@ -12,5 +12,4 @@ public class IndustryIdentifiers {
   public String getIdentifier() {
     return identifier;
   }
-
 }

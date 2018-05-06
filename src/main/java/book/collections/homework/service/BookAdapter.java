@@ -1,11 +1,14 @@
 package book.collections.homework.service;
 
-import book.collections.homework.configuration.VariableConfig;
+import static book.collections.homework.configuration.VariableConfig.ISBN_TYPE;
+
 import book.collections.homework.model.BookBuilder;
 import book.collections.homework.model.mapped.model.IndustryIdentifiers;
 import book.collections.homework.model.mapped.model.Item;
 import book.collections.homework.model.response.model.Book;
 import org.springframework.stereotype.Service;
+
+import java.text.ParseException;
 
 @Service
 public class BookAdapter {
@@ -17,7 +20,7 @@ public class BookAdapter {
     this.dateAdapter = dateAdapter;
   }
 
-  public Book convertItemToBook(Item item) {
+  public Book convertItemToBook(Item item) throws ParseException {
 
     return new BookBuilder()
         .withIsbn(getBookIsbn(item))
@@ -35,7 +38,6 @@ public class BookAdapter {
         .withAuthors(item.getVolumeInfo().getAuthors())
         .withCategories(item.getVolumeInfo().getCategories())
         .build();
-
   }
 
   public String getBookIsbn(Item item) {
@@ -43,11 +45,16 @@ public class BookAdapter {
     String isbn = "";
 
     for (IndustryIdentifiers identifier : item.getVolumeInfo().getIndustryIdentifiers()) {
-      isbn = identifier.getType().equals(VariableConfig.ISBN_TYPE) ? identifier.getIdentifier() : item.getId();
+      isbn = identifier.getType().equals(ISBN_TYPE) ? identifier.getIdentifier()
+          : item.getId();
     }
     return isbn;
   }
 
-//  public boolean isbnNumerMatches(){};
+  public boolean isbnNumerMatches(Item item, IndustryIdentifiers isbnType, String isbn) {
+    return ((isbnType.getType().equals(ISBN_TYPE) && isbnType.getIdentifier()
+        .equals(isbn)) || item
+        .getId().equals(isbn));
+  }
 
 }

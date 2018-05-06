@@ -1,6 +1,5 @@
 package book.collections.homework.service;
 
-import book.collections.homework.configuration.VariableConfig;
 import book.collections.homework.model.mapped.model.IndustryIdentifiers;
 import book.collections.homework.model.mapped.model.Item;
 import book.collections.homework.model.response.model.AuthorRating;
@@ -9,11 +8,13 @@ import org.decimal4j.util.DoubleRounder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
-public class BookLibraryService  {
+public class BookLibraryService {
 
 
   private BookAdapter bookAdapter;
@@ -27,12 +28,11 @@ public class BookLibraryService  {
 
   }
 
-  public Book getBookByIsbn(String isbn) throws IOException {
+  public Book getBookByIsbn(String isbn) throws IOException, ParseException {
 
     for (Item item : library.getBookLibrary().getItems()) {
       for (IndustryIdentifiers type : item.getVolumeInfo().getIndustryIdentifiers()) {
-        if ((type.getType().equals(VariableConfig.ISBN_TYPE) && type.getIdentifier().equals(isbn)) || item
-            .getId().equals(isbn)) {
+        if (bookAdapter.isbnNumerMatches(item, type, isbn)) {
           return bookAdapter.convertItemToBook(item);
         }
       }
@@ -40,7 +40,7 @@ public class BookLibraryService  {
     return null;
   }
 
-  public List<Book> getBookListByCategory(String givenCategory) throws IOException {
+  public List<Book> getBookListByCategory(String givenCategory) throws IOException, ParseException {
 
     List<Book> bookByCategory = new ArrayList<>();
 
@@ -55,7 +55,6 @@ public class BookLibraryService  {
     }
     return bookByCategory;
   }
-
 
   public List<AuthorRating> getAuthorsRatings() throws IOException {
 
@@ -78,15 +77,14 @@ public class BookLibraryService  {
       }
       if (counter != 0) {
         authorRating
-//            .add(new AuthorRating(uniqAuthor, Math.round((total / counter) * 10d) / 10.0d));
-                    .add(new AuthorRating(uniqAuthor, DoubleRounder.round(total / counter,1) ));
+            .add(new AuthorRating(uniqAuthor, DoubleRounder.round(total / counter, 1)));
 
       } else {
         authorRating
             .add(new AuthorRating(uniqAuthor, 0.0));
       }
     }
-    authorRating.sort((o1, o2) -> (int) (o2.getAverageRating() - o1.getAverageRating()));
+    Collections.sort(authorRating);
     return authorRating;
   }
 }
