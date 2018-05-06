@@ -1,5 +1,6 @@
 /target/
-/bookLibrary
+/bookLibrary/collections/
+
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
